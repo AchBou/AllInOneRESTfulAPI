@@ -1,0 +1,43 @@
+let userDAO = require("../DAO/userDAO")
+
+function userRoute (req, res, id) {
+
+    switch (req.method) {
+        case "GET": getUsers(req,res,id); break;
+        case "POST": addUser(req,res); break;
+        case "PUT": updateUser(req,res ,id); break;
+        case "DELETE": deleteUser(req,res,id); break;
+    }
+
+}
+
+function getUsers(req,res,id){
+    if(id) getOneUser(req,res,id);
+    else getAllUsers(req,res);
+}
+
+function getOneUser(req,res,id){
+    let user=userDAO.getOneUser(id);
+    res.writeHead(200);
+    res.end(JSON.stringify(user));
+}
+
+function getAllUsers(req,res){
+    let users=userDAO.getAllUsers();
+    res.writeHead(200);
+    res.end(JSON.stringify(users));
+}
+
+function addUser(req,res) {
+    console.log("add user")
+}
+
+function updateUser(req,res,id){
+    console.log("update user")
+}
+
+function deleteUser(req,res,id){
+    console.log("delete user")
+}
+
+exports.userRoute = userRoute;

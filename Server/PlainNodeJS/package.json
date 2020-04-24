@@ -1,0 +1,13 @@
+{
+  "name": "favapp",
+  "version": "1.0.0",
+  "description": "A RESTful app exposing microservices for Favorites app",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ach",
+  "license": "ISC"
+}

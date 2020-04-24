@@ -1,0 +1,36 @@
+function websiteRoute (req ,res,id) {
+
+    switch (req.method) {
+        case "GET": getWebsites(req,res,id); break;
+        case "POST": addWebsite(req,res); break;
+        case "PUT": updateWebsite(req,res ,id); break;
+        case "DELETE": deleteWebsite(req,res,id); break;
+    }
+}
+
+function getWebsites(req,res,id){
+    if(id) getOneWebsite(req,res,id);
+    else getAllWebsites(req,res);
+}
+
+function getOneWebsite(req,res,id){
+    res.end("get a Website");
+}
+
+function getAllWebsites(req,res){
+    res.end("list websites");
+}
+
+function addWebsite(req,res) {
+    res.end("add Website")
+}
+
+function updateWebsite(req,res,id){
+    res.end("update Website")
+}
+
+function deleteWebsite(req,res,id){
+    res.end("delete Website")
+}
+
+exports.websiteRoute = websiteRoute;

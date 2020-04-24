@@ -1,0 +1,36 @@
+function movieRoute (req ,res,id) {
+
+    switch (req.method) {
+        case "GET": getMovies(req,res,id); break;
+        case "POST": addMovie(req,res); break;
+        case "PUT": updateMovie(req,res ,id); break;
+        case "DELETE": deleteMovie(req,res,id); break;
+    }
+}
+
+function getMovies(req,res,id){
+    if(id) getOneMovie(req,res,id);
+    else getAllMovies(req,res);
+}
+
+function getOneMovie(req,res,id){
+    res.end("get a Movie")
+}
+
+function getAllMovies(req,res){
+    res.end("list Movies")
+}
+
+function addMovie(req,res) {
+    res.end("add Movie")
+}
+
+function updateMovie(req,res,id){
+    res.end("update Movie")
+}
+
+function deleteMovie(req,res,id){
+    res.end("delete Movie")
+}
+
+exports.movieRoute = movieRoute;
