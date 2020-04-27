@@ -1,0 +1,35 @@
+const admin = require("../db/firestore");
+
+let db = admin.firestore();
+
+function adminDAO() {
+
+}
+
+adminDAO.prototype.signInUser=function (username,password) {
+    let user;
+    let doc = db.collection('users')
+        .where("username","==",username)
+        .where("password","==",password)
+        .get()
+    return doc.then(snapshot => {
+        if (snapshot.empty) {
+            console.log('No matching user.');
+            return 0;
+        }
+
+        snapshot.forEach(doc => {
+            console.log("Found user: "+doc.id);
+        });
+
+        return 1;
+    })
+    .catch(err => {
+        console.log('Error getting documents', err);
+    });
+
+}
+
+
+module.exports = new adminDAO();
+

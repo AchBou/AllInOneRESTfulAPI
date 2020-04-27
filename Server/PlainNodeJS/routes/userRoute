@@ -3,41 +3,75 @@ let userDAO = require("../DAO/userDAO")
 function userRoute (req, res, id) {
 
     switch (req.method) {
-        case "GET": getUsers(req,res,id); break;
+        case "GET": getUsers(res,id); break;
         case "POST": addUser(req,res); break;
         case "PUT": updateUser(req,res ,id); break;
-        case "DELETE": deleteUser(req,res,id); break;
+        case "DELETE": deleteUser(res,id); break;
     }
-
 }
 
-function getUsers(req,res,id){
-    if(id) getOneUser(req,res,id);
-    else getAllUsers(req,res);
+function getUsers(res,id){
+    if(id) getOneUser(res,id);
+    else getAllUsers(res);
 }
 
-function getOneUser(req,res,id){
-    let user=userDAO.getOneUser(id);
-    res.writeHead(200);
-    res.end(JSON.stringify(user));
+function getOneUser(res,id){
+    userDAO.getOneUser(id).then((user)=>{
+        if(user){
+            res.writeHead(201);
+            res.end(JSON.stringify(user));
+        }
+        else{
+            res.writeHead(200);
+            res.end("There is no such user");
+        }
+    })
+    .catch((err) => {
+        console.log(err)
+    });
 }
 
-function getAllUsers(req,res){
-    let users=userDAO.getAllUsers();
-    res.writeHead(200);
-    res.end(JSON.stringify(users));
+function getAllUsers(res){
+    userDAO.getAllUsers().then(users=> {
+        res.writeHead(200);
+        res.end(JSON.stringify(users));
+    })
+    .catch((err) => {
+        console.log(err)
+    });
 }
 
 function addUser(req,res) {
-    console.log("add user")
+    userDAO.addUser(req)
+        .then(()=> {
+            res.writeHead(201);
+            res.end("Successfully added");
+        })
+        .catch((err) => {
+            console.log(err)
+        });
 }
 
 function updateUser(req,res,id){
-    console.log("update user")
+    userDAO.updateUser(req,id)
+        .then(()=> {
+            res.writeHead(201);
+            res.end("Successfully Updated");
+        })
+        .catch((err) => {
+            console.log(err)
+        });
 }
 
-function deleteUser(req,res,id){
-    console.log("delete user")
+function deleteUser(res,id){
+    userDAO.deleteUser(id)
+        .then(()=> {
+            res.writeHead(201);
+            res.end("Successfully deleted");
+        })
+        .catch((err) => {
+            console.log(err)
+        });
 }
 
 exports.userRoute = userRoute;
