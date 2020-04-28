@@ -25,6 +25,7 @@ function bodyParser(req,res) {
 }
 
 function onRequest(req, res){
+    logger(req);
     res.setHeader('Content-Type', 'application/json');
     let token=req.headers.token;
     let pathName = url.parse(req.url).pathname;
@@ -87,7 +88,9 @@ function UnauthorizedErrorHandler(res,token){
     }
 }
 
-
+function logger(req){
+    console.log(req.method+'-'+req.url);
+}
 
 server.on('clientError', (err, socket) => {
     socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
