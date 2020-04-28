@@ -1,3 +1,5 @@
+let bookDAO = require("../DAO/bookDAO");
+
 function bookRoute (req ,res,id) {
 
     switch (req.method) {
@@ -14,23 +16,62 @@ function getBooks(req,res,id){
 }
 
 function getOneBook(req,res,id){
-    res.end("get a Book")
+    bookDAO.getOneBook(id).then((book)=>{
+        if(book){
+            res.writeHead(201);
+            res.end(JSON.stringify(book));
+        }
+        else{
+            res.writeHead(200);
+            res.end("There is no such book");
+        }
+    })
+        .catch((err) => {
+            console.log(err)
+        });
 }
 
 function getAllBooks(req,res){
-    res.end("list books")
+    bookDAO.getAllBooks().then(books=> {
+        res.writeHead(200);
+        res.end(JSON.stringify(books));
+    })
+        .catch((err) => {
+            console.log(err)
+        });
 }
 
 function addBook(req,res) {
-    res.end("add Book")
+    bookDAO.addBook(req)
+        .then(()=> {
+            res.writeHead(201);
+            res.end("Successfully added");
+        })
+        .catch((err) => {
+            console.log(err)
+        });
 }
 
 function updateBook(req,res,id){
-    res.end("update Book")
+    bookDAO.updateBook(req,id)
+        .then(()=> {
+            res.writeHead(201);
+            res.end("Successfully Updated");
+        })
+        .catch((err) => {
+            console.log(err)
+        });
 }
 
 function deleteBook(req,res,id){
-    res.end("delete Book")
+    bookDAO.deleteBook(id)
+        .then(()=> {
+            res.writeHead(201);
+            res.end("Successfully deleted");
+        })
+        .catch((err) => {
+            console.log(err)
+        });
 }
 
 exports.bookRoute = bookRoute;

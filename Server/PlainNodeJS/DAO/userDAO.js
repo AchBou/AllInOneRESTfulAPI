@@ -1,5 +1,6 @@
 const admin = require("../db/firestore");
 
+
 let db = admin.firestore();
 
 function userDAO() {
@@ -8,13 +9,12 @@ function userDAO() {
 
 
 userDAO.prototype.getAllUsers=function(){
-
     let users=[];
 
     return db.collection('users').get()
         .then((snapshot) => {
             snapshot.forEach((doc) => {
-                console.log(doc.id, '=>', doc.data());
+                //console.log(doc.id, '=>', doc.data());
                 users.push(doc.data());
             });
         return users;
@@ -26,7 +26,6 @@ userDAO.prototype.getAllUsers=function(){
 
 userDAO.prototype.getOneUser=function(id){
 
-    let user;
     let doc = db.collection('users').doc(id).get();
 
     return doc.then(doc => {
@@ -46,7 +45,7 @@ userDAO.prototype.getOneUser=function(id){
 
 userDAO.prototype.addUser=function(req){
 
-    let user = req.body;
+    let user=req.body;
     let newUserRef=db.collection('users').doc();
     user.id=newUserRef.id;
 

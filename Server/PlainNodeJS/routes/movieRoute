@@ -1,3 +1,5 @@
+let movieDAO = require("../DAO/movieDAO");
+
 function movieRoute (req ,res,id) {
 
     switch (req.method) {
@@ -14,23 +16,62 @@ function getMovies(res,id){
 }
 
 function getOneMovie(res,id){
-    res.end("get a Movie")
+    movieDAO.getOneMovie(id).then((movie)=>{
+        if(movie){
+            res.writeHead(201);
+            res.end(JSON.stringify(movie));
+        }
+        else{
+            res.writeHead(200);
+            res.end("There is no such movie");
+        }
+    })
+        .catch((err) => {
+            console.log(err)
+        });
 }
 
 function getAllMovies(res){
-    res.end("list Movies")
+    movieDAO.getAllMovies().then(movies=> {
+        res.writeHead(200);
+        res.end(JSON.stringify(movies));
+    })
+        .catch((err) => {
+            console.log(err)
+        });
 }
 
 function addMovie(req,res) {
-    res.end("add Movie")
+    movieDAO.addMovie(req)
+        .then(()=> {
+            res.writeHead(201);
+            res.end("Successfully added");
+        })
+        .catch((err) => {
+            console.log(err)
+        });
 }
 
 function updateMovie(req,res,id){
-    res.end("update Movie")
+    movieDAO.updateMovie(req,id)
+        .then(()=> {
+            res.writeHead(201);
+            res.end("Successfully Updated");
+        })
+        .catch((err) => {
+            console.log(err)
+        });
 }
 
 function deleteMovie(res,id){
-    res.end("delete Movie")
+    movieDAO.deleteMovie(id)
+        .then(()=> {
+            res.writeHead(201);
+            res.end("Successfully deleted");
+        })
+        .catch((err) => {
+            console.log(err)
+        });
 }
 
 exports.movieRoute = movieRoute;

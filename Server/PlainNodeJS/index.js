@@ -19,7 +19,7 @@ function bodyParser(req,res) {
         data.push(chunk)
     })
     req.on('end', () => {
-        req.body=JSON.parse(data);
+        if(data.length) req.body=JSON.parse(data);
         onRequest(req, res);
     })
 }
@@ -79,13 +79,15 @@ function NotFoundErrorHandler(res){
 
 function UnauthorizedErrorHandler(res,token){
     try{
-        if(!token) throw Error;
+        if(!token) throw new Error("No token provided");
         let decoded = jwt.verify(token, 'achPrivateKey');
     } catch(err) {
         res.writeHead(401);
         res.end("401 Unauthorized!")
     }
 }
+
+
 
 server.on('clientError', (err, socket) => {
     socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');

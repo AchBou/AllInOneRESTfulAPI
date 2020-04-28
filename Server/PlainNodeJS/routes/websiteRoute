@@ -1,3 +1,5 @@
+let websiteDAO = require("../DAO/websiteDAO");
+
 function websiteRoute (req ,res,id) {
 
     switch (req.method) {
@@ -14,23 +16,62 @@ function getWebsites(req,res,id){
 }
 
 function getOneWebsite(req,res,id){
-    res.end("get a Website");
+    websiteDAO.getOneWebsite(id).then((website)=>{
+        if(website){
+            res.writeHead(201);
+            res.end(JSON.stringify(website));
+        }
+        else{
+            res.writeHead(200);
+            res.end("There is no such website");
+        }
+    })
+        .catch((err) => {
+            console.log(err)
+        });
 }
 
 function getAllWebsites(req,res){
-    res.end("list websites");
+    websiteDAO.getAllWebsites().then(websites=> {
+        res.writeHead(200);
+        res.end(JSON.stringify(websites));
+    })
+        .catch((err) => {
+            console.log(err)
+        });
 }
 
 function addWebsite(req,res) {
-    res.end("add Website")
+    websiteDAO.addWebsite(req)
+        .then(()=> {
+            res.writeHead(201);
+            res.end("Successfully added");
+        })
+        .catch((err) => {
+            console.log(err)
+        });
 }
 
 function updateWebsite(req,res,id){
-    res.end("update Website")
+    websiteDAO.updateWebsite(req,id)
+        .then(()=> {
+            res.writeHead(201);
+            res.end("Successfully Updated");
+        })
+        .catch((err) => {
+            console.log(err)
+        });
 }
 
 function deleteWebsite(req,res,id){
-    res.end("delete Website")
+    websiteDAO.deleteWebsite(id)
+    .then(()=> {
+        res.writeHead(201);
+        res.end("Successfully deleted");
+    })
+    .catch((err) => {
+        console.log(err)
+    });
 }
 
 exports.websiteRoute = websiteRoute;
