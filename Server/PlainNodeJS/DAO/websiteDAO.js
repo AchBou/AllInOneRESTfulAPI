@@ -44,15 +44,14 @@ websiteDAO.prototype.getOneWebsite=function(id){
         });
 }
 
-websiteDAO.prototype.addWebsite=function(req){
+websiteDAO.prototype.addWebsite=function(website){
 
-    let website = req.body;
-    let newwebsiteRef=db.collection('websites').doc();
-    website.id=newwebsiteRef.id;
+    let newWebsiteRef=db.collection('websites').doc();
+    website.id=newWebsiteRef.id;
 
-    return newwebsiteRef.set(website)
+    return newWebsiteRef.set(website)
         .then(()=> {
-            console.log("Document written with ID: ", newwebsiteRef.id);
+            console.log("Document written with ID: ", newWebsiteRef.id);
         })
         .catch((error)=> {
             console.error("Error adding document: ", error);
@@ -72,13 +71,9 @@ websiteDAO.prototype.deleteWebsite=function(id){
 }
 
 
-websiteDAO.prototype.updateWebsite=function(req,id){
+websiteDAO.prototype.updateWebsite=function(website,id){
 
-    let updateDoc = db.collection('websites').doc(id).update({
-        name:req.body.name,
-        link:req.body.password,
-        type:req.body.type
-    });
+    let updateDoc = db.collection('websites').doc(id).update(website);
 
     return updateDoc.then(res => {
         console.log('Updated: ', res);

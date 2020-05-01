@@ -39,18 +39,17 @@ showDAO.prototype.getOneShow=function(id){
         }
         return show;
     })
-        .catch(err => {
-            console.log('Error getting document', err);
-        });
+    .catch(err => {
+        console.log('Error getting document', err);
+    });
 }
 
-showDAO.prototype.addShow=function(req){
+showDAO.prototype.addShow=function(show){
 
-    let show = req.body;
-    let newshowRef=db.collection('shows').doc();
-    show.id=newshowRef.id;
+    let newShowRef=db.collection('shows').doc();
+    show.id=newShowRef.id;
 
-    return newshowRef.set(show)
+    return newShowRef.set(show)
         .then(()=> {
             console.log("Document written with ID: ", newshowRef.id);
         })
@@ -66,26 +65,22 @@ showDAO.prototype.deleteShow=function(id){
     return deletedDoc.then(res => {
         console.log('Deleted: ', res);
     })
-        .catch((error)=> {
-            console.log("Error deleting document: ", error);
-        });
+    .catch((error)=> {
+        console.log("Error deleting document: ", error);
+    });
 }
 
 
-showDAO.prototype.updateShow=function(req,id){
+showDAO.prototype.updateShow=function(show,id){
 
-    let updateDoc = db.collection('shows').doc(id).update({
-        title:req.body.title,
-        genre:req.body.genre,
-        no_seasons:req.body.no_seasons
-    });
+    let updateDoc = db.collection('shows').doc(id).update(show);
 
     return updateDoc.then(res => {
         console.log('Updated: ', res);
     })
-        .catch((error)=> {
-            console.log("Error updating document: ", error);
-        });
+    .catch((error)=> {
+        console.log("Error updating document: ", error);
+    });
 }
 
 

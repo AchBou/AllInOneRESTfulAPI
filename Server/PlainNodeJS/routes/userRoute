@@ -42,25 +42,40 @@ function getAllUsers(res){
 }
 
 function addUser(req,res) {
-    userDAO.addUser(req)
-        .then(()=> {
-            res.writeHead(201);
-            res.end("Successfully added");
-        })
-        .catch((err) => {
-            console.log(err)
-        });
+    if(req.body.username&&req.body.password) {
+        let user=req.body;
+        console.log(user)
+        userDAO.addUser(user)
+            .then(() => {
+                res.writeHead(201);
+                res.end("Successfully added");
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    }
+    else{
+        res.writeHead(400);
+        res.end("Invalid request.Check your parameters");
+    }
 }
 
 function updateUser(req,res,id){
-    userDAO.updateUser(req,id)
-        .then(()=> {
-            res.writeHead(201);
-            res.end("Successfully Updated");
-        })
-        .catch((err) => {
-            console.log(err)
-        });
+    if(req.body.username&&req.body.password) {
+        let user=req.body;
+        userDAO.updateUser(user, id)
+            .then(() => {
+                res.writeHead(201);
+                res.end("Successfully Updated");
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    }
+    else{
+        res.writeHead(400);
+        res.end("Invalid request.Check your parameters");
+    }
 }
 
 function deleteUser(res,id){

@@ -39,20 +39,19 @@ movieDAO.prototype.getOneMovie=function(id){
         }
         return movie;
     })
-        .catch(err => {
-            console.log('Error getting document', err);
-        });
+    .catch(err => {
+        console.log('Error getting document', err);
+    });
 }
 
-movieDAO.prototype.addMovie=function(req){
+movieDAO.prototype.addMovie=function(movie){
+    console.log(movie)
+    let newMovieRef=db.collection('movies').doc();
+    movie.id=newMovieRef.id;
 
-    let movie = req.body;
-    let newmovieRef=db.collection('movies').doc();
-    movie.id=newmovieRef.id;
-
-    return newmovieRef.set(movie)
+    return newMovieRef.set(movie)
         .then(()=> {
-            console.log("Document written with ID: ", newmovieRef.id);
+            console.log("Document written with ID: ", newMovieRef.id);
         })
         .catch((error)=> {
             console.error("Error adding document: ", error);
@@ -66,20 +65,15 @@ movieDAO.prototype.deleteMovie=function(id){
     return deletedDoc.then(res => {
         console.log('Deleted: ', res);
     })
-        .catch((error)=> {
-            console.log("Error deleting document: ", error);
-        });
+    .catch((error)=> {
+        console.log("Error deleting document: ", error);
+    });
 }
 
 
-movieDAO.prototype.updateMovie=function(req,id){
+movieDAO.prototype.updateMovie=function(movie,id){
 
-    let updateDoc = db.collection('movies').doc(id).update({
-        title:req.body.title,
-        year:req.body.year,
-        genre:req.body.genre,
-        director:req.body.director
-    });
+    let updateDoc = db.collection('movies').doc(id).update(movie);
 
     return updateDoc.then(res => {
         console.log('Updated: ', res);

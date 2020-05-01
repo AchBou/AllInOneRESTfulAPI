@@ -44,7 +44,6 @@ function onRequest(req, res){
     else{
 
         UnauthorizedErrorHandler(res,token);
-
         if (pathVariables[1]== "users") userRoute.userRoute(req,res,pathVariables[2]);
         else if (pathVariables[1]== "favorites"){
             switch (pathVariables[2]) {

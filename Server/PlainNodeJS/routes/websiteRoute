@@ -42,25 +42,40 @@ function getAllWebsites(req,res){
 }
 
 function addWebsite(req,res) {
-    websiteDAO.addWebsite(req)
-        .then(()=> {
-            res.writeHead(201);
-            res.end("Successfully added");
-        })
-        .catch((err) => {
-            console.log(err)
-        });
+    if(req.body.name&&req.body.url&&req.body.type) {
+        let website = req.body;
+        websiteDAO.addWebsite(website)
+            .then(() => {
+                res.writeHead(201);
+                res.end("Successfully added");
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    }
+    else{
+        res.writeHead(400);
+        res.end("Invalid request.Check your parameters");
+    }
 }
 
 function updateWebsite(req,res,id){
-    websiteDAO.updateWebsite(req,id)
-        .then(()=> {
-            res.writeHead(201);
-            res.end("Successfully Updated");
-        })
-        .catch((err) => {
-            console.log(err)
-        });
+    if(req.body.name&&req.body.url&&req.body.type) {
+        let website = req.body;
+        websiteDAO.updateWebsite(website, id)
+            .then(() => {
+                res.writeHead(201);
+                res.end("Successfully Updated");
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    }
+    else{
+        res.writeHead(400);
+        res.end("Invalid request.Check your parameters");
+    }
+
 }
 
 function deleteWebsite(req,res,id){

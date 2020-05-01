@@ -39,20 +39,19 @@ bookDAO.prototype.getOneBook=function(id){
         }
         return book;
     })
-        .catch(err => {
-            console.log('Error getting document', err);
-        });
+    .catch(err => {
+        console.log('Error getting document', err);
+    });
 }
 
-bookDAO.prototype.addBook=function(req){
+bookDAO.prototype.addBook=function(book){
 
-    let book = req.body;
-    let newbookRef=db.collection('books').doc();
-    book.id=newbookRef.id;
+    let newBookRef=db.collection('books').doc();
+    book.id=newBookRef.id;
 
-    return newbookRef.set(book)
+    return newBookRef.set(book)
         .then(()=> {
-            console.log("Document written with ID: ", newbookRef.id);
+            console.log("Document written with ID: ", newBookRef.id);
         })
         .catch((error)=> {
             console.error("Error adding document: ", error);
@@ -66,27 +65,22 @@ bookDAO.prototype.deleteBook=function(id){
     return deletedDoc.then(res => {
         console.log('Deleted: ', res);
     })
-        .catch((error)=> {
-            console.log("Error deleting document: ", error);
-        });
+    .catch((error)=> {
+        console.log("Error deleting document: ", error);
+    });
 }
 
 
-bookDAO.prototype.updateBook=function(req,id){
+bookDAO.prototype.updateBook=function(book,id){
 
-    let updateDoc = db.collection('books').doc(id).update({
-        title:req.body.title,
-        author:req.body.author,
-        edition:req.body.edition,
-        type:req.body.type
-    });
+    let updateDoc = db.collection('books').doc(id).update(book);
 
     return updateDoc.then(res => {
         console.log('Updated: ', res);
     })
-        .catch((error)=> {
-            console.log("Error updating document: ", error);
-        });
+    .catch((error)=> {
+        console.log("Error updating document: ", error);
+    });
 }
 
 

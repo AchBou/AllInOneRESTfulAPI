@@ -25,9 +25,9 @@ function getOneShow(req,res,id){
             res.end("There is no such show");
         }
     })
-        .catch((err) => {
-            console.log(err)
-        });
+    .catch((err) => {
+        console.log(err)
+    });
 }
 
 function getAllShows(req,res){
@@ -35,31 +35,45 @@ function getAllShows(req,res){
         res.writeHead(200);
         res.end(JSON.stringify(shows));
     })
-        .catch((err) => {
-            console.log(err)
-        });
+    .catch((err) => {
+        console.log(err)
+    });
 }
 
 function addShow(req,res) {
-    showDAO.addShow(req)
-        .then(()=> {
-            res.writeHead(201);
-            res.end("Successfully added");
-        })
-        .catch((err) => {
-            console.log(err)
-        });
+    if(req.body.title&&req.body.genre&&req.body.no_seasons) {
+        let show = req.body;
+        showDAO.addShow(show)
+            .then(() => {
+                res.writeHead(201);
+                res.end("Successfully added");
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    }
+    else{
+        res.writeHead(400);
+        res.end("Invalid request.Check your parameters");
+    }
 }
 
 function updateShow(req,res,id){
-    showDAO.updateShow(req,id)
-        .then(()=> {
-            res.writeHead(201);
-            res.end("Successfully Updated");
-        })
-        .catch((err) => {
-            console.log(err)
-        });
+    if(req.body.title&&req.body.genre&&req.body.no_seasons){
+        let show=req.body;
+        showDAO.updateShow(show,id)
+            .then(()=> {
+                res.writeHead(201);
+                res.end("Successfully Updated");
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    }
+    else{
+        res.writeHead(400);
+        res.end("Invalid request.Check your parameters");
+    }
 }
 
 function deleteShow(req,res,id){

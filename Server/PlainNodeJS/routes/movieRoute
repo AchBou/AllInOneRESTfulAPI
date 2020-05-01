@@ -26,9 +26,9 @@ function getOneMovie(res,id){
             res.end("There is no such movie");
         }
     })
-        .catch((err) => {
-            console.log(err)
-        });
+    .catch((err) => {
+        console.log(err)
+    });
 }
 
 function getAllMovies(res){
@@ -36,31 +36,45 @@ function getAllMovies(res){
         res.writeHead(200);
         res.end(JSON.stringify(movies));
     })
-        .catch((err) => {
-            console.log(err)
-        });
+    .catch((err) => {
+        console.log(err)
+    });
 }
 
 function addMovie(req,res) {
-    movieDAO.addMovie(req)
-        .then(()=> {
-            res.writeHead(201);
-            res.end("Successfully added");
-        })
-        .catch((err) => {
-            console.log(err)
-        });
+    if(req.body.title&&req.body.genre&&req.body.year&&req.body.director){
+        let movie=req.body;
+        movieDAO.addMovie(movie)
+            .then(()=> {
+                res.writeHead(201);
+                res.end("Successfully added");
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    }
+    else{
+        res.writeHead(400);
+        res.end("Invalid request.Check your parameters");
+    }
 }
 
-function updateMovie(req,res,id){
-    movieDAO.updateMovie(req,id)
-        .then(()=> {
-            res.writeHead(201);
-            res.end("Successfully Updated");
-        })
-        .catch((err) => {
-            console.log(err)
-        });
+function updateMovie(req,res,id) {
+    if(req.body.title&&req.body.genre&&req.body.year&&req.body.director){
+        let movie=req.body;
+        movieDAO.updateMovie(movie,id)
+            .then(()=> {
+                res.writeHead(201);
+                res.end("Successfully Updated");
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    }
+    else{
+        res.writeHead(400);
+        res.end("Invalid request.Check your parameters");
+    }
 }
 
 function deleteMovie(res,id){

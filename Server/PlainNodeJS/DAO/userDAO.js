@@ -27,7 +27,6 @@ userDAO.prototype.getAllUsers=function(){
 userDAO.prototype.getOneUser=function(id){
 
     let doc = db.collection('users').doc(id).get();
-
     return doc.then(doc => {
         if (!doc.exists) {
             console.log('No such document!');
@@ -43,9 +42,8 @@ userDAO.prototype.getOneUser=function(id){
     });
 }
 
-userDAO.prototype.addUser=function(req){
+userDAO.prototype.addUser=function(user){
 
-    let user=req.body;
     let newUserRef=db.collection('users').doc();
     user.id=newUserRef.id;
 
@@ -65,18 +63,15 @@ userDAO.prototype.deleteUser=function(id){
     return deletedDoc.then(res => {
         console.log('Deleted: ', res);
     })
-        .catch((error)=> {
-            console.log("Error deleting document: ", error);
-        });
+    .catch((error)=> {
+        console.log("Error deleting document: ", error);
+    });
 }
 
 
-userDAO.prototype.updateUser=function(req,id){
+userDAO.prototype.updateUser=function(user,id){
 
-    let updateDoc = db.collection('users').doc(id).update({
-        username:req.body.username,
-        password:req.body.password
-    });
+    let updateDoc = db.collection('users').doc(id).update(user);
 
     return updateDoc.then(res => {
         console.log('Updated: ', res);

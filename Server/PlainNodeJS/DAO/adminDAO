@@ -7,7 +7,7 @@ function adminDAO() {
 }
 
 adminDAO.prototype.signInUser=function (username,password) {
-    let user;
+
     let doc = db.collection('users')
         .where("username","==",username)
         .where("password","==",password)

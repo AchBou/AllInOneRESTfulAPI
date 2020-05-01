@@ -26,9 +26,9 @@ function getOneBook(req,res,id){
             res.end("There is no such book");
         }
     })
-        .catch((err) => {
-            console.log(err)
-        });
+    .catch((err) => {
+        console.log(err)
+    });
 }
 
 function getAllBooks(req,res){
@@ -36,31 +36,45 @@ function getAllBooks(req,res){
         res.writeHead(200);
         res.end(JSON.stringify(books));
     })
-        .catch((err) => {
-            console.log(err)
-        });
+    .catch((err) => {
+        console.log(err)
+    });
 }
 
 function addBook(req,res) {
-    bookDAO.addBook(req)
-        .then(()=> {
-            res.writeHead(201);
-            res.end("Successfully added");
-        })
-        .catch((err) => {
-            console.log(err)
-        });
+    if(req.body.title&&req.body.author&&req.body.edition&&req.body.type){
+        let book=req.body;
+        bookDAO.addBook(book)
+            .then(()=> {
+                res.writeHead(201);
+                res.end("Successfully added");
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    }
+    else{
+        res.writeHead(400);
+        res.end("Invalid request.Check your parameters");
+    }
 }
 
 function updateBook(req,res,id){
-    bookDAO.updateBook(req,id)
-        .then(()=> {
-            res.writeHead(201);
-            res.end("Successfully Updated");
-        })
-        .catch((err) => {
-            console.log(err)
-        });
+    if(req.body.title&&req.body.author&&req.body.edition&&req.body.type){
+        let book=req.body;
+        bookDAO.updateBook(book,id)
+            .then(()=> {
+                res.writeHead(201);
+                res.end("Successfully Updated");
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    }
+    else{
+        res.writeHead(400);
+        res.end("Invalid request.Check your parameters");
+    }
 }
 
 function deleteBook(req,res,id){
